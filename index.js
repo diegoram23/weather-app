@@ -3,6 +3,9 @@ const getWeatherBtn = document.getElementById('get-weather')
 const search = document.getElementById('search')
 const weatherContainer = document.getElementById('weather-container')
 
+
+let isF = true
+
 getWeatherBtn.addEventListener('click', () => {
     getData()
 })
@@ -21,17 +24,23 @@ async function getData() {
 
 const getWeatherHtml = (data) => {
     console.log(data)
-
+    isF ? temp = data.current.temp_f + ' F' : temp = data.current.temp_c + ' C'
+  
     let weatherHtml = `
         <div class='weather-container'>
             <h2>${data.location.name}</h2>               
-            <p>Current Temp: ${data.current.temp_f} F</p>
+            <p>Current Temp: ${temp}</p>
+            <button onClick='toggleTemp(${isF})'>Toggle F/C</button>
         </div>
     `
-    
-    render(weatherHtml)
+    weatherContainer.innerHTML = weatherHtml
+
 }
 
-const render = (data) => {
-    weatherContainer.innerHTML = data
+
+
+const toggleTemp = (foo) => {
+    isF = !foo
+    getData()
 }
+
